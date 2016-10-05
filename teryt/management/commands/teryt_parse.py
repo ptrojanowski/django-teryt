@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction, DatabaseError, IntegrityError
-from optparse import make_option
 
 
 from teryt.models import (
@@ -14,13 +13,15 @@ import os.path
 class Command(BaseCommand):
     args = '[xml file list]'
     help = 'Import TERYT data from XML files prepared by GUS'
-    option_list = getattr(BaseCommand, 'option_list', ()) + (
-        make_option('--update',
-                    action='store_true',
-                    dest='update',
-                    default=False,
-                    help='Update exisitng data'),
-    )
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--update',
+            action='store_true',
+            dest='update',
+            default=False,
+            help='Update exisitng data',
+        )
 
     def handle(self, *args, **options):
         force_ins = not options['update']
