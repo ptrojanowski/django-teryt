@@ -14,7 +14,7 @@ import os.path
 class Command(BaseCommand):
     args = '[xml file list]'
     help = 'Import TERYT data from XML files prepared by GUS'
-    option_list = BaseCommand.option_list + (
+    option_list = getattr(BaseCommand, 'option_list', ()) + (
         make_option('--update',
                     action='store_true',
                     dest='update',
